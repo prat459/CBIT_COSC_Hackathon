@@ -283,37 +283,6 @@ app.get('/logout', (req, res) => {
     });
 });
 
-app.post('/recommend', (req, res) => {
-    const { age, affectionate, playful, allergies, livingSpace, energyLevel, outdoorSpace } = req.body;
-
-    // Sample logic to recommend pets based on answers
-    let recommendations = [];
-
-    if (age <= 12) {
-        recommendations.push('Rabbit');
-    }
-
-    if (affectionate === 'yes' && allergies === 'no') {
-        recommendations.push('Cat', 'Dog');
-    }
-
-    if (playful === 'yes' && livingSpace === 'house') {
-        recommendations.push('Dog');
-    }
-
-    if (outdoorSpace === 'yes' && energyLevel === 'high') {
-        recommendations.push('Dog', 'Bird');
-    }
-
-    res.json({ recommendations });
-});
-
-app.get('/ques', (req, res) => {
-    // Implement your login or registration page here
-    res.sendFile(__dirname + '/public/recommend.html');
-});
-
-
 // Add a new route to render the markers page
 // Add a new route to render the markers page
 const getMarkers = async () => {
@@ -335,53 +304,7 @@ function byteaToBase64(byteaData) {
     return Buffer.from(byteaData, 'binary').toString('base64');
 }
 
-app.get('/markers', async (req, res) => {
-    try {
-        const client = await pool.connect();
 
-        const { species, breed, age } = req.query;
-
-        const query = `
-            SELECT latitude, longitude, species, photo, breed, age
-            FROM user_pet_data
-            WHERE
-                ($1 = '' OR species ILIKE $1)
-                AND ($2 = '' OR breed ILIKE $2)
-                AND ($3 = '' OR age::text ILIKE $3)
-        `;
-
-        const result = await client.query(query, [species, breed, age]);
-        const markers = result.rows.map(row => {
-            let iconUrl;
-            if (row.species === 'dog') {
-                iconUrl = 'https://emojiisland.com/cdn/shop/products/Dog_Emoji_large.png?v=1571606065'; // Customize with your dog icon URL
-            } else if (row.species === 'cat') {
-                iconUrl = 'https://cdn.shopify.com/s/files/1/1061/1924/files/CAT_emoji_icon_png.png?11238025486971989414'; // Customize with your cat icon URL
-            } else {
-                iconUrl = 'https://example.com/other-icon.png'; // Customize with a default icon URL
-            }
-
-            return {
-                latitude: row.latitude,
-                longitude: row.longitude,
-                iconUrl: iconUrl, // Set the icon URL based on species
-                breed: row.breed,
-                age: row.age
-            };
-        });
-
-        client.release();
-        res.json(markers);
-    } catch (error) {
-        console.error('Error fetching markers:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
-
-// Serve the 'markers.html' file
-app.get('/mark', (req, res) => {
-    res.sendFile(__dirname + '/public/markers.html');
-});
 
 app.get('/seemap', (req, res) => {
     res.sendFile(__dirname + '/public/seemap.html');
