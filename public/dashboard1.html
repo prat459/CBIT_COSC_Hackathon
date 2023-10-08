@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+      /* Reset default margin and padding */
+      .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #b687ca;
+            color: rgb(106, 17, 17);
+            padding: 20px;
+        }
+
+        /* Style for the logo */
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        body{
+            background: linear-gradient(to right,#d6e8e9, #fbfdfd, #fbfdfd, #d6e8e9);
+        }
+
+        /* Style for the navigation bar (you can add your navigation bar styles here) */
+        .navbuttons {
+            display:block;
+        }
+        .navbutton {
+            background-color:#b687ca;
+            border:none;
+            padding:20px;
+            font-size: 20px;
+        }
+
+        /* Center-align the text within the header */
+        h1 {
+            text-align: center;
+        }
+
+        h2{
+            text-align:left;
+            font-size:22px;
+            margin-top: 50px;
+            margin-left:20px;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        /* Style for the pet list */
+        #pet-list {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        /* Style for each pet item */
+        .pet-info {
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
+            display: inline-block;
+            vertical-align: top;
+            float: left;
+            box-sizing: border-box;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Style for the pet image */
+        .pet-image img {
+            width: 300px;
+            height:300px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Style for pet details */
+        .pet-details p {
+            margin: 5px 0;
+            text-align:left;
+        }
+
+        /* Style for the edit link */
+        .pet-details a {
+            text-decoration: none;
+            color: white;
+            background-color: #d5a3df;
+            padding: 5px 10px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .add{
+            font-size: 20px;
+            text-align:center;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: #d5a3df;
+            margin:5px 801px 5px 801px;
+            padding:1px 1px 1px 1px;
+            border-radius: 5px;
+            border:none;
+        }
+        .add:hover{
+            background-color:#ddbde3 ;
+        }
+
+        footer {
+                background-color: #b687ca;;
+                color: #3b0404;
+                text-align: center;
+                padding: 10px;
+                font-weight: bold;
+                padding: 10px;
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+            }
+
+            footer p {
+                margin: 0;
+            }
+
+            /* Existing CSS styles */
+
+            /* Style for the navigation buttons */
+            .navbuttons {
+                display: flex;
+            }
+
+            /* Style for the navigation button links */
+            .navbutton {
+                background-color: #b687ca;
+                color: rgb(67, 20, 20);
+                padding: 10px 20px;
+                font-size: 20px;
+                text-decoration: none;
+                border-radius: 5px;
+                margin: 0 10px; /* Add some margin to separate the buttons */
+                font-weight: bolder;
+            }
+
+            /* Hover effect for the navigation buttons */
+            .navbutton:hover {
+                background-color: #ddbde3;
+            }
+
+            /* Style for the "Add Pet" button container */
+            .add {
+                text-align: center; /* Center-align the button */
+            }
+
+            /* Style for the "Add Pet" button-link */
+            .button-link {
+                background-color: #d5a3df;
+                color: #250a0a; /* Font color */
+                font-weight: bolder;
+                padding: 10px 15px; /* Adjust padding as needed */
+                font-size: 18px; /* Adjust font size as needed */
+                text-decoration: none;
+                border-radius: 5px;
+                border: none; /* Remove the border if needed */
+                display: inline-block;
+            }
+
+            /* Hover effect for the "Add Pet" button-link */
+            .button-link:hover {
+                background-color: #ddbde3;
+            }
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">PetDopt</div>
+        <div class="navbuttons">
+            <a href="/" class="navbutton">Home</a>
+            <a href="/logout" class="navbutton">Login out</a>
+        </div>
+    </div>
+    <h1>Welcome to Your Dashboard, <span id="username"></span>!</h1>
+    <div class="add">
+        <a href="/add-pet">Add Pet</a>
+    </div>
+    
+    <h2>Your Pets</h2>
+    <ul id="pet-list"></ul>
+<div>
+    <script>
+        // Fetch user-specific pet data from the server and populate the list
+        fetch('/dashboard-data')
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                const { user, pets } = data;
+                document.getElementById('username').textContent = user.username;
+                const petList = document.getElementById('pet-list');
+                pets.forEach((pet) => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <div class="pet-info">
+                            <div class="pet-image">
+                                <img src="${'data:image/jpeg;base64,' + pet.photo}" alt="Pet Photo">
+                            </div>
+                            <div class="pet-details">
+                                <p>Species: ${pet.species}</p>
+                                <p>Breed: ${pet.breed}</p>
+                                <p>Age: ${pet.age} years</p>
+                                <p>Diseases: ${pet.diseases}</p>
+                                <p>Location: ${pet.location}</p>
+                                <a href="/edit-pet/${pet.id}">Edit</a>
+                            </div>
+                        </div>
+                    `;
+                    petList.appendChild(listItem);
+                });
+            })
+            .catch((error) => {
+                console.error('Error fetching pet data:', error);
+            });
+    </script>
+</div>
+<footer>
+    <p>Presented by PraHaVe</p>
+</footer>
+</body>
+</html>
