@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Pet</title>
+    <style>
+        /* Style the overall container */
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #efffff;
+                background-image: url('https://img.freepik.com/free-vector/flat-design-easter-pattern_23-2148861819.jpg?w=740&t=st=1696747634~exp=1696748234~hmac=1587f5c9e795966ea8e26a44c9861d379674e71afd8ad5e11c8345308e721597');
+                margin: 0;
+                padding: 0;
+            }
+
+        /* Style the form container */
+            h1 {
+                text-align: center;
+                margin-top: 20px;
+                color: #333;
+            }
+
+            form {
+                background-color: #fdfdfd;
+                max-width: 600px;
+                margin: 20px auto;
+                padding: 66px;
+                padding-right:95px;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+                font-family:Verdana, Geneva, Tahoma, sans-serif;
+                font-size:18px;
+            }
+
+        /* Style form labels and inputs */
+            label {
+                display: block;
+                margin-bottom: 5px;
+                color: #333;
+            }
+
+            input[type="text"],
+            input[type="number"]
+             {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 10px;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+            }
+
+        /* Style the submit button */
+            button[type="submit"] {
+                background-color: #284678;
+                color: #fff;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            button[type="submit"]:hover {
+                background-color: #8fabdd;
+            }
+
+            
+            footer {
+                background-color: #284678;
+                color: #fff;
+                text-align: center;
+                padding: 10px;
+            }
+
+            footer p {
+                margin: 0;
+            }
+    </style>
+     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+ 
+</head>
+<body>
+    <h1>Edit Pet</h1>
+    
+    <form action="/edit-pet/{{pet.id}}" method="post">
+        <label for="species">Species:</label>
+        <input type="text" id="species" name="species" value="{{pet.species}}" required><br>
+
+        <label for="breed">Breed:</label>
+        <input type="text" id="breed" name="breed" value="{{pet.breed}}" required><br>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" value="{{pet.age}}" required><br>
+
+        <label for="diseases">Diseases (if any):</label>
+        <input type="text" id="diseases" name="diseases" value="{{pet.diseases}}"><br>
+
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" value="{{pet.location}}" required><br>
+
+        <button type="submit">Save Changes</button>
+    </form>
+    <footer>
+        <p>Presented by PraHaVe</p>
+    </footer>
+</body>
+</html>

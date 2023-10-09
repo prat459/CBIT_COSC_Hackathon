@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+</head>
+<body>
+    <h1>User Details</h1>
+    <div id="userDetails">
+        <!-- User details will be displayed here -->
+    </div>
+    <script>
+        // Get the user ID from the URL query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const user_id = urlParams.get('user_id');
+
+        // Fetch user details by user ID
+        fetch(`/userDetails?user_id=${userId}`)
+            .then(response => response.json())
+            .then(user => {
+                const userDetailsDiv = document.getElementById('userDetails');
+                userDetailsDiv.innerHTML = `
+                    <p><strong>Name:</strong> ${user.name}</p>
+                    <p><strong>Contact:</strong> ${user.contact}</p>
+                    <p><strong>Email:</strong> ${user.email}</p>
+                `;
+            })
+            .catch(error => console.error(error));
+    </script>
+</body>
+</html>

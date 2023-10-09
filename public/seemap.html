@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <title>Pet Selection Questionnaire</title>
+    <style>
+               /* Apply general styles to the entire page */
+               body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            background-image: url('https://img.freepik.com/free-vector/background_53876-57974.jpg?w=900&t=st=1696754209~exp=1696754809~hmac=85791e97688508600e8dd914f8c22eff4cbc25fb87dcf5725a655fc4dcab62d3');
+            background-repeat: no-repeat;
+            background-size: cover;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Style the header */
+        h1 {
+            background-color: #284678;
+            color: white;
+            padding: 20px;
+        }
+
+        /* Style the container for the questions and answers */
+        .container {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px 300px 40px 300px;
+            margin: 20px 300px 40px 300px;
+        }
+
+        /* Style the labels for the questions */
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+       }
+
+        /* Style the select dropdowns */
+        select {
+            width: 50%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        /* Style the "Find My Pet" button */
+        button {
+            background-color: #284678;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #8fabdd;
+        }
+
+        /* Style the result div */
+        #result {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        footer {
+            background-color: #284678;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        .head{
+            font-weight: bold;
+        }
+
+        /* Style the map container */
+        #map {
+            height: 500px; /* Set the height of the map */
+            width: 100%; /* Set the width of the map to 100% of its container */
+            border: 2px solid #ccc; /* Add a border for better visualization */
+            border-radius: 5px; /* Add border radius for a rounded appearance */
+            margin: 20px auto; /* Center the map horizontally and add some margin */
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1>Pet Selector</h1>
+        <p class="head">Answer the following questions to find the best pet for you:</p>
+        
+        <label for="q1">1. Do you have living space?</label>
+        <select id="q1">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select><br><br>
+        
+        <label for="q2">2. Do you want big-sized pets?</label>
+        <select id="q2">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select><br><br>
+        
+        <label for="q3">3. Do you have time for grooming?</label>
+        <select id="q3">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select><br><br>
+        
+        <button onclick="calculatePet()">Find My Pet</button><br><br>
+        
+        <div id="result"></div>
+
+    <div id="map" style="height: 500px;"></div>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        function calculatePet() {
+                const q1 = document.getElementById("q1").value;
+                const q2 = document.getElementById("q2").value;
+                const q3 = document.getElementById("q3").value;
+                let result = "";
+    
+                if (q1 === "yes") {
+                    if (q2 === "yes") {
+                        if (q3 === "yes") {
+                            result = "German Shepherd, Golden Retriever, Pomeranian";
+                        } else {
+                            result = "Labrador, Pug, Beagle";
+                        }
+                    } else {
+                        if (q3 === "yes") {
+                            result = "Persian Cat, American Curl";
+                        } else {
+                            result = "Siberian Cat, Abyssinian";
+                        }
+                    }
+                } else {
+                    if (q2 === "yes") {
+                        if (q3 === "yes") {
+                            result = "Rex Rabbit, Belgian Hare";
+                        } else {
+                            result = "Lion Head, American Rabbit";
+                        }
+                    } else {
+                        if (q3 === "yes") {
+                            result = "Parrots";
+                        } else {
+                            result = "Hen, Pigeon";
+                        }
+                    }
+                }
+    
+                document.getElementById("result").innerHTML = `Recommended Pets: ${result}`;
+            }
+        const map = L.map('map').setView([0, 0], 7); // Set initial map coordinates to (0, 0) and zoom level
+
+        // Add a tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        // Create custom icons for dog and cat markers
+        const dogIcon = L.icon({ iconUrl: 'https://emojiisland.com/cdn/shop/products/Dog_Emoji_large.png?v=1571606065', iconSize: [25, 25] });
+        const catIcon = L.icon({ iconUrl: 'https://cdn.shopify.com/s/files/1/1061/1924/files/CAT_emoji_icon_png.png?11238025486971989414', iconSize: [25, 25] });
+
+        // Create a layer group for all animal markers
+        const allMarkers = L.layerGroup();
+
+        // Fetch longitude, latitude, and species data from your server
+        fetch('/petData')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(pet => {
+                    let marker;
+
+                    // Create a popup with pet data and image
+                    const popupContent = `
+                        <div>
+                            <img src="data:image/png;base64,${pet.photo}" alt="Pet Image" style="max-width: 100px; max-height: 100px;">
+                            <p>Species: ${pet.species}</p>
+                            <p>Breed: ${pet.breed}</p>
+                            <p>Age: ${pet.age}</p>
+                            <p>Diseases: ${pet.diseases}</p>
+                            <p>Uploaded by: <a href="/userDetailsPage?user_id=${pet.user_id}">${pet.user_id}</a></p>
+                        </div>
+                    `;
+
+                    // Determine the icon based on species
+                    if (pet.species === 'dog') {
+                        marker = L.marker([pet.latitude, pet.longitude], { icon: dogIcon }).addTo(allMarkers);
+                    } else if (pet.species === 'cat') {
+                        marker = L.marker([pet.latitude, pet.longitude], { icon: catIcon }).addTo(allMarkers);
+                    }
+
+                    // Bind the popup to the marker
+                    marker.bindPopup(popupContent);
+                });
+
+                // Add the allMarkers layer group to the map
+                allMarkers.addTo(map);
+            })
+            .catch(error => console.error(error));
+
+        // Get the user's geolocation and set the map center to their location
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(position => {
+                const userLat = position.coords.latitude;
+                const userLng = position.coords.longitude;
+                map.setView([userLat, userLng], 16); // Set the map center to the user's location with a zoom level of 13
+            }, error => {
+                console.error(error.message);
+            });
+        }
+    </script>
+        <footer>
+            <p>Presented by PraHaVe</p>
+        </footer>
+</body>
+
+</html>
