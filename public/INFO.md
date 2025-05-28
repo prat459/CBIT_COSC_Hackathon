@@ -102,7 +102,7 @@ README.md
 ---
 
 ## API Routes
-<br> 
+
 | Method | Route              | Description                         |
 | ------ | ------------------ | ----------------------------------- |
 | GET    | `/`                | Homepage / Login page               |
