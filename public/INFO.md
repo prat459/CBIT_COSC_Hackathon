@@ -61,8 +61,74 @@ CREATE TABLE user_pet_data (
   latitude FLOAT,
   longitude FLOAT
 );
-
-``` sql
+```
 
 ---
 
+## Installation
+- Clone the repo or copy files.
+- Install dependencies: npm install express express-session body-parser multer pg bcrypt uuid
+- Configure database connection in server2.js:
+```sql
+const pool = new pg.Pool({
+  user: 'postgres',
+  host: 'localhost',
+  database: 'cosc',
+  password: 'your_password',
+  port: 5432,
+});
+```
+- Start the server: node server2.js
+
+---
+
+## Project Structure
+```sql
+/node_modules
+/public
+  ├── homepage.html
+  ├── loginpage.html
+  ├── dashboard1.html
+  ├── add-pet.html
+  ├── edit-pet.html
+  ├── userDetails.html
+  ├── seemap.html
+server2.js
+package-lock.json
+package.json
+README.md
+```
+
+---
+
+## API Routes
+```sql
+| Method | Route              | Description                         |
+| ------ | ------------------ | ----------------------------------- |
+| GET    | `/`                | Homepage / Login page               |
+| GET    | `/loginpage`       | Login page                          |
+| POST   | `/register`        | Register new user                   |
+| POST   | `/login`           | User login                          |
+| GET    | `/dashboard`       | User dashboard                      |
+| GET    | `/dashboard-data`  | JSON of logged-in user’s pets       |
+| GET    | `/add-pet`         | Add pet page                        |
+| POST   | `/add-pet`         | Submit new pet data                 |
+| GET    | `/edit-pet/:id`    | Edit pet page                       |
+| POST   | `/edit-pet/:id`    | Submit pet edits                    |
+| GET    | `/image/:id`       | Serve pet photo                     |
+| GET    | `/logout`          | Logout user                         |
+| GET    | `/seemap`          | Map page showing pet markers        |
+| GET    | `/petData`         | JSON data for all pets (for map)    |
+| GET    | `/userDetails`     | Get user details by user\_id (JSON) |
+| GET    | `/userDetailsPage` | Serve user details HTML page        |
+```
+
+---
+
+## Notes 
+- Passwords should be hashed before storing. (bcrypt recommended)
+- Images are stored as binary (BYTEA) in the database.
+- Sessions use UUIDs for secure session IDs.
+- For production, secure environment variables and HTTPS should be used.
+
+---
