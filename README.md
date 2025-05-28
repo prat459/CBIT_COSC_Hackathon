@@ -84,7 +84,8 @@ const pool = new pg.Pool({
 ---
 
 ## Project Structure
-```sql
+```
+/images 
 /node_modules
 /public
   ├── homepage.html
