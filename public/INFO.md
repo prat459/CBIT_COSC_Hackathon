@@ -61,3 +61,8 @@ CREATE TABLE user_pet_data (
   latitude FLOAT,
   longitude FLOAT
 );
+
+``` sql
+
+---
+
