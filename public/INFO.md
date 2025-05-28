@@ -102,8 +102,7 @@ README.md
 ---
 
 ## API Routes
-
-
+<br> 
 | Method | Route              | Description                         |
 | ------ | ------------------ | ----------------------------------- |
 | GET    | `/`                | Homepage / Login page               |
@@ -123,8 +122,7 @@ README.md
 | GET    | `/userDetails`     | Get user details by user\_id (JSON) |
 | GET    | `/userDetailsPage` | Serve user details HTML page        |
 
-
----
+ ---
 
 ## Notes 
 - Passwords should be hashed before storing. (bcrypt recommended)
