@@ -103,6 +103,7 @@ README.md
 
 ## API Routes
 
+
 | Method | Route              | Description                         |
 | ------ | ------------------ | ----------------------------------- |
 | GET    | `/`                | Homepage / Login page               |
@@ -121,6 +122,7 @@ README.md
 | GET    | `/petData`         | JSON data for all pets (for map)    |
 | GET    | `/userDetails`     | Get user details by user\_id (JSON) |
 | GET    | `/userDetailsPage` | Serve user details HTML page        |
+
 
 ---
 
