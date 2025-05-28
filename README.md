@@ -1,76 +1,134 @@
-# HTF23-Team-31
+# CBIT COSC Hacktoberfest Hackathon: Team-31
+# Pet Management Web App
 
-## GitHub submission guide
+A full-stack web application to manage pet data for registered users. Users can register, log in, add, edit, and view their pets, including photos and location data on a map.
 
-In this Readme, you will find a guide on how to fork this Repository, add files to it, and make a pull request to contribute your changes.
+---
 
-<details open>
-<summary><h3>1. Login to your GitHub Account by heading over to <a href="https://github.com">github.com</a></h3></summary>
-<br>
-<ul>
-   <li>Open the <a href="https://github.com/cbitosc/HTF23-Team-31">current repo</a> in a new tab.</li>
-   <li>Perform all operations in the newly opened tab, and follow the current tab for instructions.</li>
-</ul>
-</details>
+## Features
 
-<details>
-<summary><h3>2. Fork the Repository</h3></summary>
-<br>
-<ul>
- <li>In the newly opened tab, on the top-right corner, click on <b>Fork</b></li>
- <img src="/images/fork.png">
+- User registration and login with session management
+- Password hashing for security
+- User-specific dashboard displaying pets
+- Add and edit pet details: species, breed, age, diseases, location, photo
+- View pet locations on a map with markers
+- Serve pet photos stored in PostgreSQL
+- Logout functionality
 
- <li>Enter the <b>Repository Name</b> as <b>HTF23-Team-31 (your team number)</b>.</li>
- <li>Then click <b>Create Fork</b> leaving all other fields to their default value.</li>
- <img src="/images/create-fork.png">
- <li>After a few moments, you can view the repo.</li>
-</ul>
-</details>
+---
 
-<details>
-<summary><h3>3. Clone your Repository</h3></summary>
-<br>
-<ul>
- <li>Click on <b>Code</b> and from the dropdown menu copy your <b>web URL</b> in your forked Repository. </li>
- <img src="/images/clone1.png">
- <li>Now open terminal on your local machine.</li>
- <li>Use the following command to clone your forked Repository:</li>
-<code> git clone https://github.com/your-username/HTF23-Team-31.git </code>
-<hr>
- <img src="/images/clone2.png">
+## Technologies Used
 
-</ul>
-</details>
+- Node.js, Express.js
+- PostgreSQL
+- bcrypt for password hashing
+- multer for file uploads
+- express-session for session handling
+- UUID for session IDs
+- HTML, CSS, JavaScript for frontend
 
-<details>
-<summary><h3>4. Adding files to the Repository</h3></summary>
-<br/>
-<ul>
- <li>While doing it for the first time, create a new branch for your changes.</li>
-   <code> git checkout -b branch-name </code>
-   <li>Add your files or make modifications to existing files.</li>
-   <li>Stage your changes:</li>
-   <code> git add . </code>
-   <li>Commit your changes:</li>
-   <code> git commit -m "Descriptive commit message" </code>
-   <li>Push changes to your fork </li>
-   <code> git push origin branch-name </code>
-   <hr>
-   
- <img src="/images/push.png">
-</ul>
-</details>
+---
 
-<details>
-<summary><h3>5. Create a Pull Request</h3></summary>
-   <br>
-<ul>
- <li>Finally, click on the <b>Contribute</b> button and choose <b>Open Pull Request</b>.</li>
- <img src="/images/PR1.png">
- <li>Leaving all fields to their default values, click on <b>Create Pull Request</b>.</li>
- <img src="/images/PR2.png">
- <li>Wait for a few moments, then you are all done</li>
-</ul>
-</details>
+## Getting Started
 
-## Thanks for participating!
+### Prerequisites
+
+- Node.js and npm installed
+- PostgreSQL installed and running
+
+### Database Setup
+
+Create a database named `cosc` (or your choice) and create the following tables:
+
+```sql
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(50) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  name VARCHAR(100),
+  contact VARCHAR(15),
+  email VARCHAR(100)
+);
+
+CREATE TABLE user_pet_data (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id),
+  species VARCHAR(50),
+  breed VARCHAR(50),
+  age INTEGER,
+  diseases TEXT,
+  photo BYTEA,
+  location VARCHAR(255),
+  latitude FLOAT,
+  longitude FLOAT
+);
+```
+
+---
+
+## Installation
+- Clone the repo or copy files.
+- Install dependencies: npm install express express-session body-parser multer pg bcrypt uuid
+- Configure database connection in server2.js:
+```sql
+const pool = new pg.Pool({
+  user: 'postgres',
+  host: 'localhost',
+  database: 'cosc',
+  password: 'your_password',
+  port: 5432,
+});
+```
+- Start the server: node server2.js
+
+---
+
+## Project Structure
+```sql
+/node_modules
+/public
+  ├── homepage.html
+  ├── loginpage.html
+  ├── dashboard1.html
+  ├── add-pet.html
+  ├── edit-pet.html
+  ├── userDetails.html
+  ├── seemap.html
+server2.js
+package-lock.json
+package.json
+README.md
+```
+
+---
+
+## API Routes
+
+| Method | Route              | Description                         |
+| ------ | ------------------ | ----------------------------------- |
+| GET    | `/`                | Homepage / Login page               |
+| GET    | `/loginpage`       | Login page                          |
+| POST   | `/register`        | Register new user                   |
+| POST   | `/login`           | User login                          |
+| GET    | `/dashboard`       | User dashboard                      |
+| GET    | `/dashboard-data`  | JSON of logged-in user’s pets       |
+| GET    | `/add-pet`         | Add pet page                        |
+| POST   | `/add-pet`         | Submit new pet data                 |
+| GET    | `/edit-pet/:id`    | Edit pet page                       |
+| POST   | `/edit-pet/:id`    | Submit pet edits                    |
+| GET    | `/image/:id`       | Serve pet photo                     |
+| GET    | `/logout`          | Logout user                         |
+| GET    | `/seemap`          | Map page showing pet markers        |
+| GET    | `/petData`         | JSON data for all pets (for map)    |
+| GET    | `/userDetails`     | Get user details by user\_id (JSON) |
+| GET    | `/userDetailsPage` | Serve user details HTML page        |
+
+ ---
+
+## Notes 
+- Passwords should be hashed before storing. (bcrypt recommended)
+- Images are stored as binary (BYTEA) in the database.
+- Sessions use UUIDs for secure session IDs.
+- For production, secure environment variables and HTTPS should be used.
+
+---
