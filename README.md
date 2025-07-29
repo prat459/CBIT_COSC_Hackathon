@@ -11,21 +11,19 @@ A full-stack web application to manage pet data for registered users. Users can 
 - Password hashing for security
 - User-specific dashboard displaying pets
 - Add and edit pet details: species, breed, age, diseases, location, photo
-- View pet locations on a map with markers
+- View pet locations on a map with pet emoji markers
 - Serve pet photos stored in PostgreSQL
 - Logout functionality
 
 ---
 
 ## Technologies Used
-
-- Node.js, Express.js
-- PostgreSQL
-- bcrypt for password hashing
-- multer for file uploads
-- express-session for session handling
-- UUID for session IDs
-- HTML, CSS, JavaScript for frontend
+- **Frontend:** HTML, CSS, JavaScript
+- **Backend:** Node.js, Express.js
+- **Database:** PostgreSQL
+- **Session Handling**: UUID, express-session
+- **File Uploading:** multer
+- **Password Hashing:** bcrypt
 
 ---
 
@@ -79,7 +77,7 @@ const pool = new pg.Pool({
   port: 5432,
 });
 ```
-- Start the server: node server2.js
+- Start the server: ``` node server2.js ```
 
 ---
 
