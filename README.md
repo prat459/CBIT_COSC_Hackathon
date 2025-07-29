@@ -13,7 +13,6 @@ A full-stack web application to manage pet data for registered users. Users can 
 - Add and edit pet details: species, breed, age, diseases, location, photo
 - View pet locations on a map with pet emoji markers
 - Serve pet photos stored in PostgreSQL
-- Logout functionality
 
 ---
 
