@@ -11,8 +11,6 @@ A full-stack web application to manage pet data for registered users. Users can 
 - Add and edit pet details: species, breed, age, diseases, location, photo
 - View pet locations on a map with pet emoji markers
    
----
-
 ## Technologies Used
 - **Frontend:** HTML, CSS, JavaScript
 - **Backend:** Node.js, Express.js
@@ -24,7 +22,6 @@ A full-stack web application to manage pet data for registered users. Users can 
 ---
 
 ## Getting Started
-
 ### Prerequisites
 
 - Node.js and npm installed
