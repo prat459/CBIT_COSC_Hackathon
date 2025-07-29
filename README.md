@@ -1,8 +1,5 @@
-# CBIT COSC Hacktoberfest Hackathon: Team-31
+# CBIT Hacktoberfest Hackathon: Team-31
 # PETDOPT - Pet Adoption Website
-
-A full-stack web application to manage pet data for registered users. Users can register, log in, add, edit, and view their pets, including photos and location data on a map.
-
 ## Features
 
 - User registration and login with session management
