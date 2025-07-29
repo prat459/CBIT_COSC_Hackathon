@@ -1,14 +1,16 @@
-# CBIT Hacktoberfest Hackathon: Team-31
-# PETDOPT - Pet Adoption Website
-## Features
+# CBIT Hacktoberfest Hackathon (Team-31)
+## PETDOPT - Pet Adoption Website
 
+PETDOPT is a user-friendly web platform that simplifies pet adoption. Users can register, log in securely, and manage their pet listings with details like breed, age, and location. An interactive map shows available pets using emoji markers, making it easy for adopters to find nearby pets. The platform ensures security with password hashing and session management, offering a smooth and safe adoption experience. 
+
+### Features
 - User registration and login with session management
 - Password hashing for security
 - User-specific dashboard displaying pets
 - Add and edit pet details: species, breed, age, diseases, location, photo
-- View pet locations on a map with pet emoji markers
+- View pet locations on a map with pet emoji markers <br><br>
    
-## Technologies Used
+### Technologies Used
 - **Frontend:** HTML, CSS, JavaScript
 - **Backend:** Node.js, Express.js
 - **Database:** PostgreSQL
@@ -17,7 +19,6 @@
 - **Password Hashing:** bcrypt
 
 ---
-
 ## Getting Started
 ### Prerequisites
 
