@@ -48,6 +48,9 @@ CREATE TABLE users (
   email VARCHAR(100)
 );
 
+```
+
+```sql
 CREATE TABLE user_pet_data (
   id SERIAL PRIMARY KEY,
   user_id INTEGER REFERENCES users(id),
